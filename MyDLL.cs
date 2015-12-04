@@ -1,16 +1,18 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace MyDLL
 {
-    public class MyDLL
+    public class MyDll
     {
         /// <summary>
         /// Get Argb color for chosen pixel
         /// </summary>
         /// <param name="x">Left point</param>
         /// <param name="y">Top point</param>
-        /// <returns></returns>
+        /// <returns>The 32-bit Argb value</returns>
         public int GetPixel( int x, int y ) {
             var bmp = new Bitmap( 16, 16, PixelFormat.Format32bppArgb );
             var grp = Graphics.FromImage( bmp );
@@ -20,6 +22,47 @@ namespace MyDLL
             grp.Save();
             // Return the color of the pixel in the 0x0 position of the saved image.
             return bmp.GetPixel( 0, 0 ).ToArgb();
+        }
+    }
+
+    public class IniFile {
+        public string Path;
+
+        [DllImport( "kernel32" )]
+        private static extern long WritePrivateProfileString( string section,
+            string key, string val, string filePath );
+        [DllImport( "kernel32" )]
+        private static extern int GetPrivateProfileString( string section,
+                 string key, string def, StringBuilder retVal,
+            int size, string filePath );
+
+        /// <summary>
+        /// INIFile Constructor.
+        /// </summary>
+        /// <PARAM name="iniPath">Full path to file.</PARAM>
+        public IniFile( string iniPath ) {
+            Path = iniPath;
+        }
+        /// <summary>
+        /// Write Data to the INI File
+        /// </summary>
+        /// <PARAM name="section">What section to write in.</PARAM>
+        /// <PARAM name="key">What line you want to have changed.</PARAM>
+        /// <PARAM name="value">The new value.</PARAM>
+        public void Write( string section, string key, dynamic value ) {
+            WritePrivateProfileString( section, key, value.ToString(), Path );
+        }
+
+        /// <summary>
+        /// Read Data value From the Ini File
+        /// </summary>
+        /// <PARAM name="section">What section to read from.</PARAM>
+        /// <PARAM name="key">The line to read from.</PARAM>
+        /// <returns>The value of the given line.</returns>
+        public string IniReadValue( string section, string key ) {
+            var temp = new StringBuilder( 255 );
+            GetPrivateProfileString( section, key, "", temp, 255, Path );
+            return temp.ToString();
         }
     }
 }
