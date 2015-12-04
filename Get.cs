@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MyDLL
 {
-    public class MyDll
+    public class Get
     {
         /// <summary>
         /// Get Argb color for chosen pixel
@@ -13,7 +13,7 @@ namespace MyDLL
         /// <param name="x">Left point</param>
         /// <param name="y">Top point</param>
         /// <returns>The 32-bit Argb value</returns>
-        public int GetPixel( int x, int y ) {
+        public int Pixel( int x, int y ) {
             var bmp = new Bitmap( 16, 16, PixelFormat.Format32bppArgb );
             var grp = Graphics.FromImage( bmp );
             // Start at XxY, with size of 1x1.
@@ -60,7 +60,7 @@ namespace MyDLL
         /// <PARAM name="section">What section to read from.</PARAM>
         /// <PARAM name="key">The line to read from.</PARAM>
         /// <returns>The value of the given line.</returns>
-        public string IniReadValue( string section, string key ) {
+        public string Read( string section, string key ) {
             var temp = new StringBuilder( 255 );
             GetPrivateProfileString( section, key, "", temp, 255, Path );
             return temp.ToString();
