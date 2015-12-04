@@ -40,6 +40,7 @@ namespace MyDLL
         /// INIFile Constructor.
         /// </summary>
         /// <PARAM name="iniPath">Full path to file.</PARAM>
+        /// <exception cref="Path not found">Path not found.</exception>
         public IniFile( string iniPath ) {
             Path = iniPath;
         }
