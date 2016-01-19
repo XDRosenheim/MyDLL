@@ -8,7 +8,9 @@ namespace MyDLL
     public class Get
     {
         /// <summary>
-        /// Get Argb color for chosen pixel
+        /// Get Argb color for chosen pixel.
+        /// 0,0 is top left of the primary monitor.
+        /// Screens to the left of the primary screen is in negative.
         /// </summary>
         /// <param name="x">Left point</param>
         /// <param name="y">Top point</param>
